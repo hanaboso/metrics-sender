@@ -1,0 +1,36 @@
+{
+  "name": "metrics-sender",
+  "version": "0.0.1",
+  "description": "Library for sending application metrics",
+  "main": "./dist/src/Metrics.js",
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha dist/test/**/*.test.js --recursive --reporter spec",
+    "lint": "./node_modules/.bin/tslint ./src/lib/**/*.ts ./src/test/**/*.ts",
+    "build": "rm -rf dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanaboso/metrics-sender"
+  },
+  "keywords": [
+    "nodejs",
+    "metrics",
+    "udp"
+  ],
+  "author": "Tomas Sedlacek <mail@kedlas.cz>",
+  "contributors": [],
+  "license": "ISC",
+  "dependencies": {
+    "hb-utils": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "4.0.4",
+    "@types/mocha": "2.2.43",
+    "@types/node": "8.0.20",
+    "chai": "3.5.0",
+    "mocha": "3.5.2",
+    "ts-node": "3.3.0",
+    "tslint": "5.7.0",
+    "typescript": "2.5.2"
+  }
+}
