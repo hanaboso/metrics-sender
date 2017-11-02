@@ -1,6 +1,6 @@
-import ObjectUtils from "hb-utils/dist/lib/ObjectUtils";
-import StringUtils from "hb-utils/dist/lib/StringUtils";
-import TimeUtils from "hb-utils/dist/lib/TimeUtils";
+import {ObjectUtils} from "hb-utils/dist/lib/ObjectUtils";
+import {StringUtils} from "hb-utils/dist/lib/StringUtils";
+import {TimeUtils} from "hb-utils/dist/lib/TimeUtils";
 import {Sender} from "../udp/Sender";
 import {IMetrics} from "./IMetrics";
 
