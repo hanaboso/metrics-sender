@@ -1,6 +1,6 @@
 {
   "name": "metrics-sender",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Library for sending application metrics",
   "main": "./dist/src/Metrics.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "contributors": [],
   "license": "ISC",
   "dependencies": {
-    "hb-utils": "0.0.3"
+    "hb-utils": "0.0.4"
   },
   "devDependencies": {
     "@types/chai": "4.0.4",
