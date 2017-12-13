@@ -8,31 +8,39 @@ const RESERVED_CHARS = [",", "=", " "];
 const SERVER = "metrics";
 const PORT = 8089;
 
+export interface ITagsMap { [key: string]: string; }
+
 /**
  * Use instance of this class for sending metrics UDP packets
  */
 export class Metrics implements IMetrics {
 
     private measurement: string;
-    private tags: string;
+    private tags: ITagsMap;
     private sender: Sender;
 
     /**
      *
      * @param {string} measurement
-     * @param {string} name
-     * @param {string} host
+     * @param {ITagsMap} tags
      * @param {string} server optional
      * @param {string} port optional
      */
-    public constructor(measurement: string, name: string, host: string, server?: string, port?: number) {
+    public constructor(measurement: string, tags: ITagsMap = {}, server?: string, port?: number) {
         this.measurement = StringUtils.escapeChars(measurement, RESERVED_CHARS);
-
-        const nameTag = StringUtils.escapeChars(name, RESERVED_CHARS);
-        const hostTag = StringUtils.escapeChars(host, RESERVED_CHARS);
-        this.tags = `name=${nameTag},host=${hostTag}`;
+        this.tags = tags;
 
         this.sender = new Sender(server || SERVER, port || PORT);
+    }
+
+    /**
+     * Adds new tag
+     *
+     * @param {string} key
+     * @param {string} value
+     */
+    public addTag(key: string, value: string) {
+        this.tags[key] = value;
     }
 
     /**
@@ -57,9 +65,10 @@ export class Metrics implements IMetrics {
      */
     public createLine(fieldSet: {}): string {
         const fields = ObjectUtils.toString(ObjectUtils.escapeProperties(fieldSet, RESERVED_CHARS));
+        const tags = ObjectUtils.toString(ObjectUtils.escapeProperties(this.tags, RESERVED_CHARS));
         const timestamp = TimeUtils.nowNano();
 
-        return `${this.measurement},${this.tags} ${fields} ${timestamp}`;
+        return `${this.measurement},${tags} ${fields} ${timestamp}`;
     }
 
 }
