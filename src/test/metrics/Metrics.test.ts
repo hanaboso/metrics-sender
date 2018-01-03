@@ -6,12 +6,28 @@ import "mocha";
 
 describe("Metrics", () => {
 
-    it("should create line in defined format", () => {
+    it("should create line in defined format", async () => {
         const tags = {name : "appname", host: "10.28.30.45"};
         const m = new Metrics("measurementName", tags);
-        const line = m.createLine({ value1: 10000, value2: "some value" });
+
+        const line = await m.send({ value1: 10000, value2: "some value" });
 
         const withoutTime = "measurementName,name=appname,host=10.28.30.45 value1=10000,value2=some\\ value";
+        assert.lengthOf(line, withoutTime.length + 20);
+        assert.lengthOf(line.substr(0, withoutTime.length), withoutTime.length);
+    });
+
+    it("should create line in defined format with lately added and removed tag", async () => {
+        const tags = {name : "appname", host: "10.28.30.45"};
+        const m = new Metrics("measurementName", tags);
+
+        m.addTag("added", "foo");
+        m.removeTag("invalid");
+        m.removeTag("host");
+
+        const line = await m.send({ value1: 10000, value2: "some value" });
+
+        const withoutTime = "measurementName,name=appname,added=foo value1=10000,value2=some\\ value";
         assert.lengthOf(line, withoutTime.length + 20);
         assert.lengthOf(line.substr(0, withoutTime.length), withoutTime.length);
     });

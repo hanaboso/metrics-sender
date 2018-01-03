@@ -44,6 +44,15 @@ export class Metrics implements IMetrics {
     }
 
     /**
+     * Removes tag
+     *
+     * @param {string} key
+     */
+    public removeTag(key: string) {
+        delete this.tags[key];
+    }
+
+    /**
      * Sends UDP packet
      *
      * @param fieldSet
@@ -63,7 +72,7 @@ export class Metrics implements IMetrics {
      *
      * @param fieldSet
      */
-    public createLine(fieldSet: {}): string {
+    private createLine(fieldSet: {}): string {
         const fields = ObjectUtils.toString(ObjectUtils.escapeProperties(fieldSet, RESERVED_CHARS));
         const tags = ObjectUtils.toString(ObjectUtils.escapeProperties(this.tags, RESERVED_CHARS));
         const timestamp = TimeUtils.nowNano();

@@ -1,12 +1,12 @@
 {
   "name": "metrics-sender",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Library for sending application metrics",
   "main": "./dist/src/Metrics.js",
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha dist/test/**/*.test.js --recursive --reporter spec",
     "lint": "./node_modules/.bin/tslint ./src/lib/**/*.ts ./src/test/**/*.ts",
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc -d"
   },
   "repository": {
     "type": "git",

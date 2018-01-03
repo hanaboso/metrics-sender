@@ -39,7 +39,7 @@ export class Sender {
                     return reject(`Cannot send metrics. Error: ${err}. Msg: ${message}`);
                 }
 
-                return resolve(`Metrics sent to ${this.serverIP}:${this.port}. Msg: ${message}`);
+                return resolve(message);
             });
         });
     }
