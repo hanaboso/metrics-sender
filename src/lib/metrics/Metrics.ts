@@ -56,10 +56,11 @@ export class Metrics implements IMetrics {
      * Sends UDP packet
      *
      * @param fieldSet
+     * @param includeTime
      * @return {Promise}
      */
-    public send(fieldSet: {}): Promise<string> {
-        const msg = this.createLine(fieldSet);
+    public send(fieldSet: {}, includeTime = true): Promise<string> {
+        const msg = this.createLine(fieldSet, includeTime);
 
         return this.sender.send(msg);
     }
@@ -71,13 +72,19 @@ export class Metrics implements IMetrics {
      * messages_consumed=4564654,messages_published=54657868  1465839830100400200
      *
      * @param fieldSet
+     * @param includeTime
      */
-    private createLine(fieldSet: {}): string {
+    private createLine(fieldSet: {}, includeTime = true): string {
         const fields = ObjectUtils.toString(ObjectUtils.escapeProperties(fieldSet, RESERVED_CHARS));
         const tags = ObjectUtils.toString(ObjectUtils.escapeProperties(this.tags, RESERVED_CHARS));
-        const timestamp = TimeUtils.nowNano();
+        let line = `${this.measurement},${tags} ${fields}`;
 
-        return `${this.measurement},${tags} ${fields} ${timestamp}`;
+        if (includeTime) {
+            const timestamp = TimeUtils.nowNano();
+            line = `${line} ${timestamp}`;
+        }
+
+        return line;
     }
 
 }

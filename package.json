@@ -1,6 +1,6 @@
 {
   "name": "metrics-sender",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Library for sending application metrics",
   "main": "./dist/src/Metrics.js",
   "scripts": {

@@ -10,11 +10,15 @@ describe("Metrics", () => {
         const tags = {name : "appname", host: "10.28.30.45"};
         const m = new Metrics("measurementName", tags);
 
-        const line = await m.send({ value1: 10000, value2: "some value" });
+        const lineWithTime = await m.send({ value1: 10000, value2: "some value" });
+        const lineWithoutTime = await m.send({ value1: 10000, value2: "some value" }, false);
 
-        const withoutTime = "measurementName,name=appname,host=10.28.30.45 value1=10000,value2=some\\ value";
-        assert.lengthOf(line, withoutTime.length + 20);
-        assert.lengthOf(line.substr(0, withoutTime.length), withoutTime.length);
+        const expectedWithoutTime = "measurementName,name=appname,host=10.28.30.45 value1=10000,value2=some\\ value";
+        assert.equal(expectedWithoutTime, lineWithoutTime);
+
+        // Check if line contains timestamp at the end if generated with it
+        assert.lengthOf(lineWithTime, expectedWithoutTime.length + 20);
+        assert.lengthOf(lineWithTime.substr(0, expectedWithoutTime.length), expectedWithoutTime.length);
     });
 
     it("should create line in defined format with lately added and removed tag", async () => {
@@ -25,11 +29,10 @@ describe("Metrics", () => {
         m.removeTag("invalid");
         m.removeTag("host");
 
-        const line = await m.send({ value1: 10000, value2: "some value" });
+        const line = await m.send({ value1: 10000, value2: "some value" }, false);
 
         const withoutTime = "measurementName,name=appname,added=foo value1=10000,value2=some\\ value";
-        assert.lengthOf(line, withoutTime.length + 20);
-        assert.lengthOf(line.substr(0, withoutTime.length), withoutTime.length);
+        assert.equal(line, withoutTime);
     });
 
     it("should send and receive udp packet", (done) => {
