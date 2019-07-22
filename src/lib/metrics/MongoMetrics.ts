@@ -15,7 +15,7 @@ export interface ITagsMap { [key: string]: string; }
 export class MongoMetrics implements IMetrics {
 
     private measurement: string;
-    private readonly tags: ITagsMap;
+    private tags: ITagsMap;
     private sender: Sender;
 
     /**
@@ -52,7 +52,7 @@ export class MongoMetrics implements IMetrics {
     }
 
     /**
-     * Sends UDP packet
+     * Sends document
      *
      * @param fieldSet
      * @param includeTime
