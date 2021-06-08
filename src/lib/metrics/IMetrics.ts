@@ -7,6 +7,11 @@ export interface IMetrics {
     send(fieldSet: {[key: string]: any}, includeTime: boolean): Promise<string>;
 
     /**
+     * Close UDP connection
+     */
+    close(): void;
+
+    /**
      * Add new tag to list of tags
      *
      * @param {string} key

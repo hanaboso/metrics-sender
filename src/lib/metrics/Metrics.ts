@@ -66,6 +66,13 @@ export class Metrics implements IMetrics {
     }
 
     /**
+     * Close UDP connection
+     */
+    public close(): void {
+        this.sender.close();
+    }
+
+    /**
      * Creates line protocol compliant message
      *
      * e.g: rabbitmq-director,name=process-main,host=ip-10-12-13-14 buffer_messages=82,buffer_size=135451,
